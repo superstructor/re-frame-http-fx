@@ -2,7 +2,7 @@
   :description  "A re-frame effects handler for performing Ajax tasks"
   :url          "https://github.com/Day8/re-frame-http-fx.git"
   :license      {:name "MIT"}
-  :dependencies [[org.clojure/clojure        "1.8.0"]
+  :dependencies [[org.clojure/clojure        "1.10.0"]
                  [org.clojure/clojurescript  "1.10.520"]
                  [re-frame                   "0.8.0"]
                  [cljs-ajax                  "0.8.0"]]
