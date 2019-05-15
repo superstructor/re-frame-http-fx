@@ -9,7 +9,7 @@
 
   :profiles {:debug {:debug true}
              :dev   {:dependencies [[karma-reporter     "1.0.1"]
-                                    [binaryage/devtools "0.8.1"]]
+                                    [binaryage/devtools "0.9.10"]]
                      :plugins      [[lein-ancient       "0.6.15"]
                                     [lein-cljsbuild     "1.1.4"]
                                     [lein-npm           "0.6.2"]
