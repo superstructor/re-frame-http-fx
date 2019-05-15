@@ -130,19 +130,3 @@
                                       :response-format (ajax/json-response-format {:keywords? true})
                                       :on-success      [::good-http-result done "test-token1"]
                                       :on-failure      [::bad-http-result done "test-token1"]}]])))
-
-; Commented out until we re-enable spec
-;(deftest invalid-fx-test
-;  (is (= ::s/invalid
-;         (s/conform ::http-fx/request-map {})))
-;  (is (= ::s/invalid
-;         (s/conform ::http-fx/request-map {:method          :get
-;                                           :uri             "https://api.github.com"
-;                                           :response-format :json
-;                                           :on-success      [:x]
-;                                           :on-failure      [:y]})))
-;  (is (= ::s/invalid
-;         (s/conform ::http-fx/request-map {:method          :get
-;                                           :uri             "https://api.github.com"
-;                                           :response-format (ajax/json-response-format)
-;                                           :on-success      [:x]}))))
