@@ -53,6 +53,7 @@
 
 (defn http-effect
   [request]
+  (console :warn "re-frame-http-fx: \":http-xhrio\" fx is deprecated. Use \":http/req\".")
   (let [seq-request-maps (if (sequential? request) request [request])]
     (doseq [request seq-request-maps]
       (-> request request->xhrio-options ajax/ajax-request))))
