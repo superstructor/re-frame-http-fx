@@ -1,6 +1,7 @@
 (ns day8.re-frame.http-fx
   (:require
     [goog.net.ErrorCode :as errors]
+    [goog.iter]
     [re-frame.core :refer [reg-fx dispatch console]]
     [ajax.core :as ajax]
     #_[cljs.spec :as s]))
@@ -24,17 +25,25 @@
   "ajax-request only provides a single handler for success and errors"
   [on-success on-failure xhrio [success? response]]
   ; see http://docs.closure-library.googlecode.com/git/class_goog_net_XhrIo.html
-  (if success?
-    (on-success response)
-    (let [details (merge
-                    {:uri             (.getLastUri xhrio)
-                     :last-method     (.-lastMethod_ xhrio)
-                     :last-error      (.getLastError xhrio)
-                     :last-error-code (.getLastErrorCode xhrio)
-                     :debug-message   (-> xhrio .getLastErrorCode (errors/getDebugMessage))}
-                    response)]
-      (on-failure details))))
+  (let [headers (js->clj (.getResponseHeaders xhrio) :keywordize-keys true)
 
+        details (cond->
+                  {:status      (.getStatus xhrio)
+                   :status-text (.getStatusText xhrio)
+                   :uri         (.getLastUri xhrio)
+                   :last-method (.-lastMethod_ xhrio)
+                   :headers     headers}
+
+                  (not success?)
+                  (merge {:last-error      (.getLastError xhrio)
+                          :last-error-code (.getLastErrorCode xhrio)
+                          :debug-message   (-> xhrio .getLastErrorCode (errors/getDebugMessage))})
+
+                  :always
+                  (merge response))]
+    (if success?
+      (on-success details)
+      (on-failure details))))
 
 (defn request->xhrio-options
   [{:as   request
