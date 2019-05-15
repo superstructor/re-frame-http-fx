@@ -4,7 +4,7 @@
   :license      {:name "MIT"}
   :dependencies [[org.clojure/clojure        "1.10.0"]
                  [org.clojure/clojurescript  "1.10.520"]
-                 [re-frame                   "0.8.0"]
+                 [re-frame                   "0.10.6"]
                  [cljs-ajax                  "0.8.0"]]
 
   :profiles {:debug {:debug true}
