@@ -8,7 +8,7 @@
                  [cljs-ajax                  "0.8.0"]]
 
   :profiles {:debug {:debug true}
-             :dev   {:dependencies [[karma-reporter     "1.0.1"]
+             :dev   {:dependencies [[karma-reporter     "3.1.0"]
                                     [binaryage/devtools "0.9.10"]]
                      :plugins      [[lein-ancient       "0.6.15"]
                                     [lein-cljsbuild     "1.1.4"]
