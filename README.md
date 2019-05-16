@@ -116,7 +116,7 @@ an example written as another effect handler to put the result into db.
 
 If the network connection to the server is successful, the server response has a
 success status code and the body of the response is parsable then `result` will
-be a map like:
+be dispatched to `:on-success` as a map something like:
 
 ```clojure
 {:uri           "/example"
@@ -124,31 +124,6 @@ be a map like:
  :status        201
  :status-text   "Created"
  :body          {:message "Hello!"}
- :debug-message "No Error"
- :headers       {:location                     "/example/123"
-                 :date                         "Thu, 16 May 2019 01:14:50 GMT"
-                 :cache-control                "no-cache"
-                 :server                       "http-kit"
-                 :access-control-allow-origin  "http://localhost:3449"
-                 :content-length               "26"
-                 :access-control-allow-methods "DELETE, GET, POST, PUT"}}
-```
-
-#### `:on-success` with an unparsable body
-
-If the network connection to the server is successful, the server response has a
-success status code but the body of the response has a parse error then `result`
-will be a map like:
-
-```clojure
-{:uri           "/example"
- :last-method   "POST"
- :status        201
- :status-text   "Created"
- :failure       :parse
- :parse-error   {:failure       :parse
-                 :status-text   "Unexpected token H i … been JSON keywordize"
-                 :original-text "Hello!"}
  :debug-message "No Error"
  :headers       {:location                     "/example/123"
                  :date                         "Thu, 16 May 2019 01:14:50 GMT"
@@ -170,6 +145,31 @@ failure status code.
   ::http-get-failure
   (fn [db [_ result]]
     (assoc db ::http-get-failure result)))
+```
+
+#### `:on-failure` of a successful request with an unparsable body
+
+If the network connection to the server is successful, the server response has a
+success status code but the body of the response has a parse error then `result`
+will be dispatched to `:on-failure` as a map something like:
+
+```clojure
+{:uri           "/example"
+ :last-method   "POST"
+ :status        201
+ :status-text   "Created"
+ :failure       :parse
+ :parse-error   {:failure       :parse
+                 :status-text   "Unexpected token H i … been JSON keywordize"
+                 :original-text "Hello!"}
+ :debug-message "No Error"
+ :headers       {:location                     "/example/123"
+                 :date                         "Thu, 16 May 2019 01:14:50 GMT"
+                 :cache-control                "no-cache"
+                 :server                       "http-kit"
+                 :access-control-allow-origin  "http://localhost:3449"
+                 :content-length               "26"
+                 :access-control-allow-methods "DELETE, GET, POST, PUT"}}
 ```
 
 #### `:on-failure` `:status` 40x/50x or Server Failure
