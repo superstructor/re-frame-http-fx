@@ -9,7 +9,7 @@ This re-frame library contains a HTTP
 Keyed `:http/req`, it wraps the `goog.net.Xhrio` API of
 [cljs-ajax](https://github.com/JulianBirch/cljs-ajax).
 
-> **BREAKING CHANGES**: As of version `0.2.0` there are significant breaking
+> **BREAKING CHANGES**: As of version `1.0.0-alpha1` there are significant breaking
 > changes to the effect's keys, features and return values. Versions `0.1.x`
 > and older are documented in [docs/README-0.1.md](docs/README-0.1.md).
 
