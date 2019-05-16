@@ -15,20 +15,22 @@
         details (cond->>
                   {:uri           (.getLastUri xhrio)
                    :last-method   (.-lastMethod_ xhrio)
-                   :headers       headers
                    :status        (.getStatus xhrio)
                    :status-text   (.getStatusText xhrio)
                    :debug-message (-> xhrio .getLastErrorCode
                                       (errors/getDebugMessage))}
 
+                  (pos? (count headers))
+                  (merge {:headers headers})
+
                   success?
                   ;; Successful response with a parsable body.
-                  (merge {:response result})
+                  (merge {:body result})
 
                   (and (not success?)
                        (not (nil? response)))
                   ;; Failure response with a parsable body.
-                  (merge {:response response})
+                  (merge {:body response})
 
                   (and (not (nil? failure))
                        (not (= :parse failure)))
