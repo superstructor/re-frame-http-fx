@@ -222,7 +222,7 @@ For example ...
 (re-frame/reg-event-fx
   ::http-post
   (fn [_ [_ val]]
-    {:http-xhrio {:method          :post
+    {:http/req   {:method          :post
                   ...
                   :on-success      [::success-post-result 42 "other"]
                   :on-failure      [::failure-post-result :something :else]}}))
