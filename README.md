@@ -216,10 +216,11 @@ In this case, `result` will be something like:
  :last-error-code 6}
 ```
 
-#### `:on-failure` `:status` -1 or Timeout
+### Step 3c Handling `:on-timeout`
 
-If the time for the server to respond exceeds `:timeout` `result` will be a map
-something like:
+If the time for the server to respond exceeds `:timeout` **and** you have
+provided an `:on-timeout` handler. The `result` will be dispatched to the
+timeout handler as a map something like:
 
 ```clojure
 {:uri             "/take-your-time"
@@ -231,6 +232,9 @@ something like:
  :last-error      "Timed out after 500ms, aborting"
  :last-error-code 8}
 ```
+
+If you do **not** provide an `:on-timeout` handler it will be dispatched to the
+`:on-failure` handler instead.
 
 ### Tip
 
