@@ -125,13 +125,13 @@ be a map like:
  :status-text   "Created"
  :body          {:message "Hello!"}
  :debug-message "No Error"
- :headers {:location                     "/example/123"
-           :date                         "Thu, 16 May 2019 01:14:50 GMT"
-           :cache-control                "no-cache"
-           :server                       "http-kit"
-           :access-control-allow-origin  "http://localhost:3449"
-           :content-length               "26"
-           :access-control-allow-methods "DELETE, GET, POST, PUT"}}
+ :headers       {:location                     "/example/123"
+                 :date                         "Thu, 16 May 2019 01:14:50 GMT"
+                 :cache-control                "no-cache"
+                 :server                       "http-kit"
+                 :access-control-allow-origin  "http://localhost:3449"
+                 :content-length               "26"
+                 :access-control-allow-methods "DELETE, GET, POST, PUT"}}
 ```
 
 #### `:on-success` with an unparsable body
@@ -172,7 +172,28 @@ failure status code.
     (assoc db ::http-get-failure result)))
 ```
 
-#### `:on-failure` `:status` 0 - Network Connection Failure
+#### `:on-failure` `:status` 40x/50x or Server Failure
+
+```clojure
+{:uri             "/error-json"
+ :last-method     "POST"
+ :status          503
+ :status-text     "Service Unavailable"
+ :body            {:some-json "Oh nos!"}
+ :failure         :error
+ :last-error      "Service Unavailable [503]"
+ :last-error-code 6
+ :debug-message   "Http response at 400 or 500 level"
+ :headers         {:location                     "/error-json"
+                   :date                         "Thu, 16 May 2019 01:14:50 GMT"
+                   :cache-control                "no-cache"
+                   :server                       "http-kit"
+                   :access-control-allow-origin  "http://localhost:3449"
+                   :content-length               "26"
+                   :access-control-allow-methods "DELETE, GET, POST, PUT"}}
+```
+
+#### `:on-failure` `:status` 0 or Network Connection Failure
 
 In some cases, if the network connection itself is unsuccessful, it is possible
 to get a status code of `0`. For example:
@@ -195,7 +216,7 @@ In this case, `result` will be something like:
  :last-error-code 6}
 ```
 
-#### `:on-failure` `:status` -1 - Timeout
+#### `:on-failure` `:status` -1 or Timeout
 
 If the time for the server to respond exceeds `:timeout` `result` will be a map
 something like:
